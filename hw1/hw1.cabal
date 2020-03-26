@@ -17,8 +17,38 @@ cabal-version:       >=1.10
 tested-with:         GHC == 8.0.1
 
 library
-  hs-source-dirs:      src
-  exposed-modules:     Lib
+  hs-source-dirs:        src
+  exposed-modules:       Block1Task1
+                       , Block1Task2
+                       , Block1Task3
+                       , Block2Task1
+                       , Block2Task2
+                       , Block3Task1
+                       , Block3Task2
+                       , Block4Task1
+                       , Block4Task2
+                       , Block4Task3
+                       , Block5Task1
+                       , Block6Task1And2
   ghc-options:         -Wall
-  build-depends:       base >= 4.9 && < 5
+  build-depends:       base >= 4.9 && < 5, containers
+  default-language:    Haskell2010
+
+test-suite hw1-test
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Spec.hs
+  build-depends:       base
+                     , hw1
+                     , hspec
+  other-modules :      Block1Task1Spec
+                     , Block1Task2Spec
+                     , Block1Task3Spec
+                     , Block4Task1Spec
+                     , Block2Task2Spec
+                     , Block3Task1Spec
+                     , Block3Task2Spec
+                     , Block5Task1Spec
+                     , Block6Spec
+  ghc-options:         -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010

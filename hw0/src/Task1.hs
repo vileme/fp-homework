@@ -27,7 +27,6 @@ eitherAssoc = (f, g)
     f (Left a)          = Left (Left a)
     f (Right (Left a))  = Left (Right a)
     f (Right (Right a)) = Right a
-    
     g :: Either (Either a b) c -> Either a (Either b c)
     g (Left (Left a))   = Left a
     g (Left (Right a))  = Right (Left a)

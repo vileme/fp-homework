@@ -34,7 +34,6 @@ tags
 
 # IntellijIDEA
 .idea/
-.out/
 .ideaHaskellLib/
 *.iml
 
