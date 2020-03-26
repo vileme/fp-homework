@@ -6,7 +6,7 @@ module Block1Task2
   , checkEquality
   , fromInt
   , multiply
-  , subtract
+  , subtraction
   , toInt
   ) where
 
