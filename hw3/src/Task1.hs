@@ -11,32 +11,57 @@ module Task1
   , scalarProduct
   ) where
 
+
+-- | Data type for the two dimensional point with the integer coordinates.
 data Point =
   Point
-    { x :: !Int
-    , y :: !Int
+    { x :: !Int  -- ^ x - axis
+    , y :: !Int  -- ^ y - axis
     }
   deriving (Show)
 
-plus :: Point -> Point -> Point
+-- | Adding two points.
+plus 
+  :: Point  -- ^ first point
+  -> Point  -- ^ second point
+  -> Point  -- ^ sum result
 plus (Point x1 y1) (Point x2 y2) = Point (x1 + x2) (y1 + y2)
 
-minus :: Point -> Point -> Point
+-- | Subtraction of two points.
+minus 
+  :: Point -- ^ first point 
+  -> Point -- ^ second point
+  -> Point -- ^ result point
 minus (Point x1 y1) (Point x2 y2) = Point (x1 - x2) (y1 - y2)
 
-scalarProduct :: Point -> Point -> Int
+-- | Scalar production of two points.
+scalarProduct 
+  :: Point -- ^ first point
+  -> Point -- ^ second point
+  -> Int   -- ^ integer result
 scalarProduct (Point x1 y1) (Point x2 y2) = x1 * x2 + y1 * y2
 
-crossProduct :: Point -> Point -> Int
+-- | Directed area production.
+crossProduct 
+  :: Point  -- ^ first point 
+  -> Point  -- ^ second point
+  -> Int    -- ^  result 
 crossProduct (Point x1 y1) (Point x2 y2) = x1 * y2 - x2 * y1
 
-distance :: Point -> Point -> Double
+-- | Distance between two points.
+distance 
+  :: Point  -- ^ first point
+  -> Point  -- ^ second point
+  -> Double -- ^ result 
 distance p1 p2 = sqrt $ fromIntegral $ scalarProduct r r
   where
     r :: Point
     r = minus p1 p2
 
-perimeter :: [Point] -> Double
+-- | Counts the perimeter of 2d - figure. Fast implementation with forcing strict accumulator.
+perimeter 
+  :: [Point]  -- ^ Clockwised figure representation 
+  -> Double   -- ^ result
 perimeter [] = 0
 perimeter (c:cs) = myFold c 0 (c : cs)
   where
@@ -47,6 +72,8 @@ perimeter (c:cs) = myFold c 0 (c : cs)
       where
         newAcc = acc + distance cx (head cxs)
 
+
+-- | Counts the perimeter of 2d - figure. Slow implementation for tests and comparison.
 perimeterSlow :: [Point] -> Double
 perimeterSlow [] = 0
 perimeterSlow (c:cs) = myFold c 0 (c : cs)
@@ -58,6 +85,7 @@ perimeterSlow (c:cs) = myFold c 0 (c : cs)
       where
         newAcc = acc + distance cx (head cxs)
 
+-- | Counts the area of 2d - figure. Fast implementation with forcing strict accumulator.
 doubleArea :: [Point] -> Int
 doubleArea [] = 0
 doubleArea (c:cs) = abs $ myFold c 0 (c : cs)
@@ -69,6 +97,9 @@ doubleArea (c:cs) = abs $ myFold c 0 (c : cs)
       where
         !newAcc = acc + crossProduct cx (head cxs)
 
+
+
+-- | Counts the area of 2d - figure. Slow implementation for tests and comparison.
 doubleAreaSlow :: [Point] -> Int
 doubleAreaSlow [] = 0
 doubleAreaSlow (c:cs) = abs $ myFold c 0 (c : cs)

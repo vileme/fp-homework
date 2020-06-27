@@ -41,7 +41,6 @@ test-suite hw3-test
                      , criterion
                      , random
                      , hspec
-                     , hashable
                      , async
   other-modules :      Task1Test
                      , Task2Test

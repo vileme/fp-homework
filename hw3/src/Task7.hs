@@ -10,13 +10,18 @@ import           Lens.Micro      (filtered, traversed, (%~), (^.), (^..), _2)
 import           System.FilePath (replaceExtension)
 import           Task5           (FS (..), dir, name)
 
+
 isFile :: FS -> Bool
 isFile File {..} = True
 isFile _         = False
 
+
+-- | Change extension of all files from given path.
 changeExtension :: FilePath -> FS -> FS
 changeExtension extension = dir . _2 . traversed . filtered isFile . name %~ flip replaceExtension extension
 
+
+-- | Get all the contents recursively.
 getAllNames :: FS -> [FilePath]
 getAllNames fp = allCurrentNames ++ allRecursiveNames
   where
@@ -25,6 +30,7 @@ getAllNames fp = allCurrentNames ++ allRecursiveNames
     allRecursiveNames :: [FilePath]
     allRecursiveNames = concatMap getAllNames $ fp ^.. dir . _2 . traversed . filtered (not . isFile)
 
+-- | Remove the directory if it is empty.
 rmIfEmpty :: FilePath -> FS -> FS
 rmIfEmpty directory = dir . _2 %~ filter notEmpty
   where
