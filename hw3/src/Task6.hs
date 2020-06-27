@@ -1,15 +1,14 @@
+{-# LANGUAGE Rank2Types      #-}
 {-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE Rank2Types #-}
-module Task6 
+
+module Task6
   ( ls
   , cd
   , file
-  )
-  where
+  ) where
 
-import Lens.Micro (Traversal', _2, traversed, filtered, failing, (^.))
-import Task5 (FS(..), dir, name, fileName)
-
+import           Lens.Micro (Traversal', failing, filtered, traversed, (^.), _2)
+import           Task5      (FS (..), dir, fileName, name)
 
 ls :: Traversal' FS FilePath
 ls = dir . _2 . traversed . name
@@ -19,7 +18,7 @@ cd path = dir . _2 . traversed . filtered (matchName path)
   where
     matchName :: FilePath -> FS -> Bool
     matchName _ File {..} = False
-    matchName p d = d ^. name == p
+    matchName p d         = d ^. name == p
 
 file :: FilePath -> Traversal' FS FilePath
 file fname = failing fileTraverse dirTraverse

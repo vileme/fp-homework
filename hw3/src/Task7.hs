@@ -1,21 +1,21 @@
 {-# LANGUAGE RecordWildCards #-}
-module Task7
- (
-   changeExtension
- , getAllNames
- , rmIfEmpty)
- where
 
-import Lens.Micro (_2, traversed, filtered, (%~),(^..), (^.))
-import System.FilePath (replaceExtension)
-import Task5 (FS(..), dir, name)
+module Task7
+  ( changeExtension
+  , getAllNames
+  , rmIfEmpty
+  ) where
+
+import           Lens.Micro      (filtered, traversed, (%~), (^.), (^..), _2)
+import           System.FilePath (replaceExtension)
+import           Task5           (FS (..), dir, name)
 
 isFile :: FS -> Bool
-isFile File {..} =  True
-isFile _  = False
+isFile File {..} = True
+isFile _         = False
 
 changeExtension :: FilePath -> FS -> FS
-changeExtension extension  = dir . _2 . traversed . filtered isFile . name %~ flip replaceExtension extension
+changeExtension extension = dir . _2 . traversed . filtered isFile . name %~ flip replaceExtension extension
 
 getAllNames :: FS -> [FilePath]
 getAllNames fp = allCurrentNames ++ allRecursiveNames
@@ -28,10 +28,7 @@ getAllNames fp = allCurrentNames ++ allRecursiveNames
 rmIfEmpty :: FilePath -> FS -> FS
 rmIfEmpty directory = dir . _2 %~ filter notEmpty
   where
-    isDir :: FS -> Bool
-    isDir fs = not $ isFile fs
     nameMatch :: FS -> Bool
     nameMatch fs = fs ^. name == directory
     notEmpty :: FS -> Bool
-    notEmpty fs = not (isDir fs && nameMatch fs)
-      
+    notEmpty fs = not (not (isFile fs) && nameMatch fs)
