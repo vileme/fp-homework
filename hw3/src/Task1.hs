@@ -108,5 +108,5 @@ doubleAreaSlow (c:cs) = abs $ myFold c 0 (c : cs)
     myFold _ _ [] = 0
     myFold start acc [lastP] = acc + crossProduct start lastP
     myFold start acc list@(cx:cxs) = myFold start newAcc (tail list)
-      where
+      where 
         newAcc = acc + crossProduct cx (head cxs)

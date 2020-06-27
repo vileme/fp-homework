@@ -61,3 +61,5 @@ dir _ f                     = pure f
 fileName :: Traversal' FS FilePath
 fileName f (File x) = File <$> f x
 fileName _ fs       = pure fs
+
+
