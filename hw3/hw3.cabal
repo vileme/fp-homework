@@ -19,11 +19,16 @@ tested-with:         GHC == 8.0.1
 library
   hs-source-dirs:      src
   exposed-modules:     Task1, Task2, Task3, Task4, Task5, Task6, Task7, Task8
-  ghc-options:         -Wall
+  ghc-options:         -Wall -Werror
   build-depends:       base >= 4.9 && < 5
                        , filepath
                        , directory
                        , microlens
+                       , stm
+                       , hashable
+                       , containers
+                       , vector
+
   default-language:    Haskell2010
 
 
@@ -35,5 +40,10 @@ test-suite hw3-test
                      , hw3
                      , criterion
                      , random
-  ghc-options:         -Wall -Werror -threaded -rtsopts -with-rtsopts=-N
+                     , hspec
+                     , hashable
+                     , async
+  other-modules :      Task1Test
+                     , Task2Test
+  ghc-options:         -Wall -Werror -threaded -rtsopts -with-rtsopts= -N4
   default-language:    Haskell2010
