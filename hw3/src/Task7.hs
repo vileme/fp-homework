@@ -6,16 +6,32 @@ module Task7
  , rmIfEmpty)
  where
 
-import Lens.Micro (_2, traversed, filtered, (%~), (&))
+import Lens.Micro (_2, traversed, filtered, (%~),(^..), (^.))
 import System.FilePath (replaceExtension)
 import Task5 (FS(..), dir, name)
 
 isFile :: FS -> Bool
 isFile File {..} =  True
-isFile Dir {..} = False
+isFile _  = False
 
-changeExtension :: String -> FS -> FS
+changeExtension :: FilePath -> FS -> FS
 changeExtension extension  = dir . _2 . traversed . filtered isFile . name %~ flip replaceExtension extension
 
-getAllNames = undefined
-rmIfEmpty = undefined
+getAllNames :: FS -> [FilePath]
+getAllNames fp = allCurrentNames ++ allRecursiveNames
+  where
+    allCurrentNames :: [FilePath]
+    allCurrentNames = fp ^.. dir . _2 . traversed . name
+    allRecursiveNames :: [FilePath]
+    allRecursiveNames = concatMap getAllNames $ fp ^.. dir . _2 . traversed . filtered (not . isFile)
+
+rmIfEmpty :: FilePath -> FS -> FS
+rmIfEmpty directory = dir . _2 %~ filter notEmpty
+  where
+    isDir :: FS -> Bool
+    isDir fs = not $ isFile fs
+    nameMatch :: FS -> Bool
+    nameMatch fs = fs ^. name == directory
+    notEmpty :: FS -> Bool
+    notEmpty fs = not (isDir fs && nameMatch fs)
+      
